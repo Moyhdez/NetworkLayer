@@ -1,5 +1,5 @@
 //
-//  NetworkManager.swift
+//  MovieService.swift
 //  ModernNetworkLayer
 //
 //  Created by Moises Hernandez Zamarripa on 29/09/20.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-enum NetworkResult<String> {
-    case success
-    case failure(String)
-}
-struct NetworkManager {
+class MovieService: NetworkManager {
     static let enviroment: NetworkEnviroment = .production
     static let movieAPIKey = "7b692bb4f615f7a9c27b36097d5189e0"
-    private let router = Router<MovieApi>()
+    var router: Router<MovieApi>
+    
+    init(router: Router<MovieApi>) {
+        self.router = router
+    }
     
     func getNewMovies(page: Int, completion: @escaping (Result<MovieApiResponse, NetworkError>)->()) {
         router.request(.newMovies(page: page)) { data, response, error in
@@ -42,16 +42,6 @@ struct NetworkManager {
                     completion(.failure(networkError))
                 }
             }
-        }
-    }
-    
-    fileprivate func handleNetwork(_ response: HTTPURLResponse) -> Result<Bool, NetworkError> {
-        switch response.statusCode {
-        case 200...299: return .success(true)
-        case 401...500: return .failure(NetworkError.authenticationError)
-        case 501...599: return .failure(NetworkError.badRequest)
-        case 600: return .failure(NetworkError.outdated)
-        default: return .failure(NetworkError.failed)
         }
     }
 }

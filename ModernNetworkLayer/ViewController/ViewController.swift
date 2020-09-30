@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    var networkManager: NetworkManager!
+    var networkManager: MovieService!
     
     var movies: [Movie] = [] {
         didSet {
@@ -18,7 +18,7 @@ class ViewController: UITableViewController {
         }
     }
     
-    init(networkManager: NetworkManager) {
+    init(networkManager: MovieService) {
         super.init(nibName: nil, bundle: nil)
         self.networkManager = networkManager
     }

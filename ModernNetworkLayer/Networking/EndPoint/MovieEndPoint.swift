@@ -23,7 +23,7 @@ enum MovieApi {
 
 extension MovieApi: EndPointType {
     var environmentBaseURL : String {
-        switch NetworkManager.enviroment {
+        switch MovieService.enviroment {
         case .production: return "https://api.themoviedb.org/3/movie/"
         case .qa: return "https://qa.themoviedb.org/3/movie/"
         case .staging: return "https://staging.themoviedb.org/3/movie/"
@@ -56,8 +56,8 @@ extension MovieApi: EndPointType {
         switch self {
         case .newMovies(let page):
             let urlParameters: Parameters = [
-                "page":page,
-                "api_key":NetworkManager.movieAPIKey
+                "page": page,
+                "api_key": MovieService.movieAPIKey
             ]
             return .requestParameters(bodyParameters: nil, urlParameters: urlParameters)
         default:
